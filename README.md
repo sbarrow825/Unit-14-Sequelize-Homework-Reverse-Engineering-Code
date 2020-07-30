@@ -95,8 +95,15 @@ Descriptive walkthrough of the functionality and code syntax in the attached Nod
 
 ## README-Overview
 
+This README contains a table of contents outlining the file structure of this project. Each of the links on the table of contents will bring you to a description of the functionality of that particular file/folder in the application. The descriptions of each file/folder in this README will be high level, meaning that they serve to inform the reader of the broad functionality of that particular file/folder. For more in depth descriptions, please see the comments made within each file as they describe pretty much what each and ever line of code in doing.
+
+Note that the first entry in the table of contents brings you to a video walkthough. If you do not wish to read through all the description and comments yourself, you may watch the video where you will be walked through all of the files/folders along with their in-depth, line-by-line descriptions.
+
+Please read the "Application-Overview" section to begin with to familarize yourself with this app's functionality before you dive in to the descriptions of specific files and folders.
+
 ## Table of Contents
 
+* [Descriptive Walkthough Video](#Walkthough-Video)
 * [Application-Overview](#Application-Overview)
 * [server.js](#server.js)
 * [package.json](#package.json)
@@ -124,6 +131,7 @@ Descriptive walkthrough of the functionality and code syntax in the attached Nod
 * [License](#License)
 * [Questions](#Questions)
 
+## Walkthrough-Video
 
 ## Application-Overview
 
