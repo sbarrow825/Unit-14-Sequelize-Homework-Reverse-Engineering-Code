@@ -104,6 +104,7 @@ Please read the "Application-Overview" section to begin with to familarize yours
 ## Table of Contents
 
 * [Descriptive Walkthough Video](#Walkthough-Video)
+* [Usage](#Usage)
 * [Application-Overview](#Application-Overview)
 * [server.js](#server.js)
 * [package.json](#package.json)
@@ -133,9 +134,34 @@ Please read the "Application-Overview" section to begin with to familarize yours
 
 ## Walkthrough-Video
 
+## Usage
+
+
 ## Application-Overview
 
 ## server.js
+
+The server.js file sets up a server, making it ready to process client requests and thereby run the app's functionality.
+
+We specify the port that our server will listen on as ```var PORT = process.env.PORT || 8080```. This allows us to host our server on an external plaform (e.g heroku) if a ```process.env.PORT``` variable exists. If ```process.env.PORT``` does not exist, the server will be hosted on localhost:8080.
+
+All of our sequelize models are required in our server.js file ```var db = require("./models")``` such that we can later sync() up our sequelize model with our database in order for the server to use sequelize to make changes to the database. See [models directory](#models) for more information on how these models are generated.
+
+This Node.js app runs on express. In order to configure our application, we first start by declaring a variable (in this case "app") equal to a new express instance ```var app = express()```.
+
+Options are then specified for the app allowing it to parse incoming requests from forms ```(app.use(express.urlencoded))``` and requests containing JSON objects ```app.use(express.json())```.
+
+The app is then told that everything inside the "public" directory is static ```app.use(express.static(public))```, meaning that is has access to the information contained in all of the files in the public directory at any time.
+
+The app is then configured to handle sessions using express-sessions ```app.use(session(...))```. This configures the app such that each time a client uses the app, that usage will be saved as a particular sesssion.
+
+The app is then configured to use the Passport authentication module ```app.use(passport.initialize())``` for sessions ```app.use(passort.session())``` allowing Passport to automatically alter the req object and change the "user" value that is current the session id into the deseriazlied user object.
+
+All of the routes in the "routes" folder are then required ```require("./routes/html-routes.js")(app)``` ```require("./routes/api-routes.js")(app)``` by our app such that the server knows how to respond to the client when it recieves a request at any one of these routes.
+
+Our sequelize models are then synced up to our "passport_demo" MySQL database ```db.sequelize.sync()``` allowing the server to make changes to our "passport_demo" database using sequelize.
+
+Finally, our app starts listening for client requests on our specified PORT ```app.listen(PORT, function() {``` and console.logs the PORT that the server is now listening on ```console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);```
 
 ## package.json
 
