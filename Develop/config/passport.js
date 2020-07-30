@@ -4,7 +4,7 @@ var LocalStrategy = require("passport-local").Strategy; // passport-local
 // password.
 
 var db = require("../models"); // requires all of our models. In this case
-// there is only 1 model, users, which can be accessed via db.users
+// there is only 1 model, users, which can be accessed via db.User
 
 // Telling passport we want to use a Local Strategy. In other words, we want login with a username/email and password
 passport.use(new LocalStrategy(
