@@ -250,7 +250,15 @@ The config folder contains files that deal with configuration of the application
 
 ### middleware
 
+Middleware is loosely defined as any software or service that enables the parts of a system to communicate and manage data. It is software that handles communication between components and input/output, so developers can focus on the specific purpose of their application.
+
 #### isAuthenticated.js
+
+isAuthenticated.js does exactly what it's name suggests, it checks whether the user is authenticated. Authenticated in this case means that the user has successfully logged in and thus Passport has set a ```req.user``` property.
+
+If isAuthenticated.js is called and the current user is indeed authenticated, it does nothing, it simply tells the client to continue doing whatever it was that they were doing.
+
+If isAuthenticated.js is called and the current user is not authenticated, isAuthenticated.js will redirect the user to the root route ```/```
 
 ### config.json
 
