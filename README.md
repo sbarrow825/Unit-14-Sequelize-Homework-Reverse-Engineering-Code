@@ -165,6 +165,25 @@ Finally, our app starts listening for client requests on our specified PORT ```a
 
 ## package.json
 
+All npm packages contain a file, usually in the project root as it is here, call ```package.json```. This file hold various metadata relevant to the project.
+
+The important part of the ```package.json``` file that we care about in regard to the functionality of this app is the ```dependencies```. For this app, the dependencies are as follows:
+
+```"dependencies": {
+    "bcryptjs": "2.4.3",
+    "express": "^4.17.0",
+    "express-session": "^1.16.1",
+    "mysql2": "^1.6.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^5.8.6"
+}
+```
+
+All of the entries inside ```dependencies``` specifiy which npm packages this app needs to have installed before it can function.
+
+All of these dependencies in the ```package.json``` file are installed upon running ```npm install``` in your terminal with the ```package.json``` file in your root directory:
+
 ## models
 
 ### index.js
