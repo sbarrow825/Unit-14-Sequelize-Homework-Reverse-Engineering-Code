@@ -1,7 +1,3 @@
-// the server.js file sets up a server for you app to run on, meaning
-// that your app will be running on a computer ready to process requests
-// from a client.
-
 // Requiring necessary npm packages
 // this is standard JS syntax for requiring outside modules, e.g express.
 // we see that express (along with many other modules) is listed as a dependency
@@ -53,21 +49,84 @@ var app = express(); // since we've required the module "express" up on line 13,
 // express server start listening for requests on a specified PORT.
 
 
-app.use(express.urlencoded({ extended: true })); //
-app.use(express.json());
-app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true })); // built in express method that allows our
+// app to parse incoming requests with urlencoded payloads. This means that when the client
+// sends our server a request via a form, our server will create a new body object from the
+// request that can be accessed via req.body, or an empty object if there was no body to parse.
+// The "extended: true" property specification here tells our server that the value of the key-value
+// pairs in req.body can be any datatype. If instead we passed in "extended: false", the values
+// to the key-value pairs in req.body could only be datatypes of either String or Array.
+
+app.use(express.json()); // similar to the above command, this command deals with allowing our
+// server to parse data. Here, we are telling our server that if client sends over a request
+// with a JSON object, parse that JSON object into a req.body object so that we can have access
+// to the information that was contained in that JSON object on the server side.
+
+app.use(express.static("public")); // in computer science, the word "static" means that a variable
+// has been allocated "statically", specifying that its lifetime is the entire run of the program.
+// Basically, declaring something as static means that everything else in the program has access to
+// that variable at any time. The express.static() method takes in a "root" parameter, specifying
+// the root directory from which to serve static assets. Here, we are passing in "public" as our 
+// "root" parameter to the express.static() method, meaning that everything inside of the "public"
+// directly is now declared static, and is now available for any other file anywhere else in the
+// application to use at any time.
+
 // We need to use sessions to keep track of our user's login status
-app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+
+app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true })); // session is
+// a built in method in the express-sessions module. Calling app.use(session(...)) like we've done
+// here makes it so that each time a client uses that app, that use is saved on the server side as
+// a particular "session". This is very useful for apps since it allows the server to save data for
+// a client's particular session, while not saving that data globally on the app for other clients.
+// For example: if you had an app that allowed clients to add ToDo tasks to the page, you wouldn't
+// want one client to save their ToDos on the page then have another client open up your app and see
+// the first client's ToDos populate their page. You would want both clients to be running the app
+// on their own session so that you don't get this overlap.
+// 
+// The "secret" option is the only required option for a session. The string stored as the value to
+// the key secret is used to sign the session ID cookie. This means that when the client opens the
+// app, this "secret" value is used to confirm the client access to this particular session. Without
+// a "secret" string, access to the session would essentially be denied. It's a good practice to use
+// a secret string that cannot be easily guessed by humans in order to reduce the ability of others
+// hijacking the session. It's also good practice to set the session key equal to something such as
+// an environment variable such that the secret itself doesn't exist on your repository for others
+// to see. We've done neither of those things here.
+//
+// The "resave: true" option tells the session store that a particular session is still active. This
+// can be useful since some stores will delete unused sessions after some time.
+//
+// The "saveUninitialized: true" option forces a session to be saved to the store even when it is
+// uninitialized. This means that whenever the client opens up a session, even if they change nothing
+// (aka haven't initialized the session), that session will be saved back to the session store.
+
+
+app.use(passport.initialize()); // initializes the "Passport" authentication module on our app. This
+// module will take care of securely logging users into the app.
+
+app.use(passport.session()); // since our application uses persistent login sessions, we must include
+// this passport.session() method. This allows passport to automatically alter the req object
+// and change the "user" value that is currently the session id into the true, deserialized user object.
+// Passport can only successfully do this if serializeUser and deserializeUser methods are provided,
+// which they are in ./config/passport.js. See that file for more details.
 
 // Requiring our routes
-require("./routes/html-routes.js")(app);
-require("./routes/api-routes.js")(app);
+
+require("./routes/html-routes.js")(app); // allows the server to successfully respond to the client
+// when any of the routes defined in the file ./routes/html-routes.js are hit.
+require("./routes/api-routes.js")(app); // allows the server to successfully respond to the client
+// when any of the routes defined in the file ./routes/api-routes.js are hit.
+// See the comments in these two files for more details on how the server responds to these routes.
 
 // Syncing our database and logging a message to the user upon success
-db.sequelize.sync().then(function() {
-  app.listen(PORT, function() {
+db.sequelize.sync().then(function() { //syncs all of our sequelize models with our "passport_demo"
+// MySQL database. This allows use to then use sequelize to make changes to the database. Notice
+// that we have ommitted the "force: true" option inside the .sync() method, this means that if the
+// database already has data in it, we do not get rid of the old data every time we sync, we simply
+// get ready to modify the existing data.
+  app.listen(PORT, function() { // tells our express app to start listening for requests from the client
+    // on the specified PORT. After this call, our server is up and ready to process client requests.
     console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
+    // displays a message in terminal informing the user that the server is now up and which PORT it is
+    // listening for requests on.
   });
 });
