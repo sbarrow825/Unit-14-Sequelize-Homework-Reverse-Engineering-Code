@@ -240,16 +240,34 @@ If the hash can be uniquely compared, the "password" column input is set as the 
 ```
 User.addHook("beforeCreate", function(user) {
     user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
-  });
+});
 ```
 
 ## config
+
+The config folder contains files that deal with configuration of the application. This includes both configuring of the database as well as authentication with the npm module "Passport"
 
 ### middleware
 
 #### isAuthenticated.js
 
 ### config.json
+
+The config.json file works in tandem with the [index.js](#index.js) in the models directory to succesfully set up the database for allowing the server to successfully make queries to using sequelize.
+
+config.json is gives index.js the values needed for index.js to create a new Sequelize instance with the proper database name, username, and password. For example, when running the application on localhost, the "development" values of the config.json file shown below are used by index.js to set up the sequelize database to refer to the database hosted on your local machine.
+
+```
+"development": {
+    "username": "root",
+    "password": "password",
+    "database": "passport_demo",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+```
+
+If you have a MySQL database named "passport_demo" being used on a connection with username "root" that has password "password", index.js will successfully set up the connenction to that database.
 
 ### passport.js
 
