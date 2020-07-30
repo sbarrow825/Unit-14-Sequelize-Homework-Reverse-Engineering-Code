@@ -58,6 +58,7 @@ Make sure that you've downloaded [Node.js from the nodejs.org website](https://n
 npm install
 ```
 
+Also, make sure that you've downloaded [MySQL from dev.mysql.com](https://dev.mysql.com/downloads/windows/installer/8.0.html) for your particular OS and installed the MySQL workbench along with it.
 
 ## Usage
 
