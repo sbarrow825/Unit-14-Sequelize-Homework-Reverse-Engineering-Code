@@ -52,6 +52,8 @@ Please read the "Application-Overview" section to familarize yourself with this 
 
 Detailed walkthough video of all the code in this application
 
+https://drive.google.com/file/d/1iiNae-Pp3f1lyzwZ6nDYrxAvDFTAHJqz/view?usp=sharing
+
 ## Installation
 
 Make sure that you've downloaded [Node.js from the nodejs.org website](https://nodejs.org/en/download/), then run the following command in the working directory of this project to install the necessary node modules
