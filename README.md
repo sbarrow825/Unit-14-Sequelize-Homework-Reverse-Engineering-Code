@@ -1,111 +1,25 @@
-Reverse engineer the starter code provided and create a tutorial for the code.
-
-In the `Develop` folder, there is starter code for a project. Begin inspecting the code to get an understanding of each file's responsibility. Then, README markdown file, write a tutorial explaining *every* file and its purpose in as fine as detail as possible. If one file is dependant on other files, be sure to let the user know.
-
-At the end of the tutorial, add instructions for how you could now add changes to this project.
-
-Following the [common templates for user stories](https://en.wikipedia.org/wiki/User_story#Common_templates), we can frame this challenge as follows:
-
-```
-AS A developer
-
-I WANT a walk-through of the codebase
-
-SO THAT I can use it as a starting point for a new project
-```
-
-## Business Context
-
-When joining a new team, you will be expected to inspect a lot of code that you have never seen before. Rather than having a team member explain every line for you, you will dissect the code by yourself, saving any questions for a member of your team.
-
-## Acceptance Criteria
-
-```md
-GIVEN a Node.js application using Sequelize and Passport
-WHEN I follow the walkthrough
-THEN I understand the codebase
-```
-- - -
-
-## Submission on BCS
-
-You are required to submit the following:
-
-* A link to code repo that contains the code within the `Develop` directory. The repo should contain a tutorial written in markdown explaining how the application functions; a tutorial.
-
-* The `Develop` directory should be updated with original comments on what the code is doing line-by-line. 
-
-* Optionally - you may also include a video explaining the application in `Develop` directory and display that video in the README Doc. 
-
-* Both the video and the written tutorial should include visual graphics to support your lesson. 
-
-`Note`: With both cases, written tutorial and/or video tutorial:
-
-* line-by-line commenting is expected within the code. 
-* A formatted README that list a written introduction of the purpose of the application and a high level explanation of how it works. 
-
-* **Detailed** explanation of how the application functions can be expressed in a **Video** **OR** a **Written Tutorial**
-
-- - -
-© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Unit 14 Sequelize Homework: Reverse Engineering Code
 
 ## Description
 
-Descriptive walkthrough of the functionality and code syntax in the attached Node express app
+Descriptive walkthrough of the code for the attached Node.js express application
 
 ## README-Overview
 
-This README contains a table of contents outlining the file structure of this project. Each of the links on the table of contents will bring you to a description of the functionality of that particular file/folder in the application. The descriptions of each file/folder in this README will be high level, meaning that they serve to inform the reader of the broad functionality of that particular file/folder. For more in depth descriptions, please see the comments made within each file as they describe pretty much what each and ever line of code in doing.
+This README contains a table of contents outlining the file structure of this project. Each of the links on the table of contents will bring you to a description of the functionality of that particular file/folder in the application. The descriptions of each file/folder in this README will be high level, meaning that they serve to inform the reader of the broad functionality of that particular file/folder. For more in depth descriptions, please see the comments made within each file as they describe in detail what each line of code is doing.
 
-Note that the first entry in the table of contents brings you to a video walkthough. If you do not wish to read through all the description and comments yourself, you may watch the video where you will be walked through all of the files/folders along with their in-depth, line-by-line descriptions.
+Note that the first entry in the table of contents is a video walkthough. If you do not wish to read through all the description and comments yourself, you may watch the video where you will be walked through all of the files/folders along with their in-depth, line-by-line descriptions.
 
-Please read the "Application-Overview" section to begin with to familarize yourself with this app's functionality before you dive in to the descriptions of specific files and folders.
+Please read the "Application-Overview" section to familarize yourself with this application's functionality before you dive in to the descriptions of specific files and folders.
 
 ## Table of Contents
 
 * [Descriptive Walkthough Video](#Walkthough-Video)
 * [Usage](#Usage)
+* [Installation](#Installation)
 * [Application-Overview](#Application-Overview)
+* [db directory](#db)
+    * [schema.sql](#schema.sql)
 * [server.js](#server.js)
 * [package.json](#package.json)
 * [models directory](#models)
@@ -132,12 +46,46 @@ Please read the "Application-Overview" section to begin with to familarize yours
 * [License](#License)
 * [Questions](#Questions)
 
+<br>
+
 ## Walkthrough-Video
+
+## Installation
+
+Make sure that you've downloaded [Node.js from the nodejs.org website](https://nodejs.org/en/download/), then run the following command in the working directory of this project to install the necessary node modules
+
+```sh
+npm install
+```
+
 
 ## Usage
 
+In order to run the application, first copy the db/schema.sql file into your MySQL workbench and generate a "passport_demo" database by hitting the lightning bolt on the top of the window. Note that the /Develop/config/config.json file is specifying that our database has ```"username": "root"``` and ```"password": "password"```. If you are on a MySQL connection that has different username and password parameters, you will need to change config.json accordingly to match your MySQL connection parameters.
+
+Once you've successfully created your database, type the following command into your command line with Develop in your current working directory in order to run the application.
+
+```sh
+node server.js
+```
+
+After running the above command, you should see a message in your terminal saying ```==> �  Listening on port 8080. Visit http://localhost:8080/ in your browser.``` Open up your browser and navigate to localhost:8080 to use the application.
 
 ## Application-Overview
+
+This application uses Passport, an npm module, to manage secure logins of users into the website. Upon opening the application, the user will be sent to a log in page. If the user doesn't have an account, the user will be able to make an account with a specific username and password. If the user already has an account, the user will be able to login from the login page. Upon a successful login, the user will be brought to the members page.
+
+The application uses express-sessions to make sure that each time a user uses the application, that use is saved as a session. This is useful concerning the authentication functionality in this program since once a user logs in, they will continuously be logged in for the remainder of that session (unless they choose to logout with the logout button on the members page).
+
+The application stores all users' emails and password in a MySQL database so that if users have already created an account, they don't need to recreate one in order to log in again. The application also takes security measures to ensure that the users' raw passwords are not stored in the database, but instead a serialized version of their password is stored in the database. This way, the application offers the benefits of persistent login information being stored for users without the drawback of having their passwords stored on a database.
+
+## db
+
+The db directory contains all the files we need to set up our database before running our application.
+
+### schema.sql
+
+schema.sql contains all the code needed to instantiate our database. Since this application uses sequelize to make queries to our database, there is no need to create tables or run a seeds.sql file manually. This file simply creates a database named "passport_demo" if it does not already exists, then uses "passport_demo". 
 
 ## server.js
 
@@ -443,7 +391,6 @@ form.signup,
 form.login {
   margin-top: 50px;
 }
-
 ```
 
 This makes all html elements that are forms with a class of "signup" or "login" have a 50px margin above them.
@@ -465,6 +412,8 @@ Also populates the page with a logout button.
 Generates a form on the page for users to input their email and password along with a signup button that users can click after inputting their email and password into the form to sign up.
 
 Also populates the page with a link that will redirect the user to the login page when clicked.
+
+<br>
 
 ## License
 
