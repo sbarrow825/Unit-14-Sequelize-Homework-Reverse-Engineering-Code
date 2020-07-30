@@ -14,7 +14,7 @@ Please read the "Application-Overview" section to familarize yourself with this 
 
 ## Table of Contents
 
-* [Descriptive Walkthough Video](#Walkthough-Video)
+* [Descriptive Walkthough Video](#Walkthrough-Video)
 * [Usage](#Usage)
 * [Installation](#Installation)
 * [Application-Overview](#Application-Overview)
@@ -49,6 +49,8 @@ Please read the "Application-Overview" section to familarize yourself with this 
 <br>
 
 ## Walkthrough-Video
+
+Detailed walkthough video of all the code in this application
 
 ## Installation
 
