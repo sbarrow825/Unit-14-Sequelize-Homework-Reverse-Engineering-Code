@@ -143,7 +143,8 @@ Please read the "Application-Overview" section to begin with to familarize yours
 
 The server.js file sets up a server, making it ready to process client requests and thereby run the app's functionality.
 
-We specify the port that our server will listen on as ```var PORT = process.env.PORT || 8080```. This allows us to host our server on an external plaform (e.g heroku) if a ```process.env.PORT``` variable exists. If ```process.env.PORT``` does not exist, the server will be hosted on localhost:8080.
+We specify the port that our server will listen on as 
+```var PORT = process.env.PORT || 8080```. This allows us to host our server on an external plaform (e.g heroku) if a ```process.env.PORT``` variable exists. If ```process.env.PORT``` does not exist, the server will be hosted on localhost:8080.
 
 All of our sequelize models are required in our server.js file ```var db = require("./models")``` such that we can later sync() up our sequelize model with our database in order for the server to use sequelize to make changes to the database. See [models directory](#models) for more information on how these models are generated.
 
@@ -269,13 +270,122 @@ config.json is gives index.js the values needed for index.js to create a new Seq
 
 If you have a MySQL database named "passport_demo" being used on a connection with username "root" that has password "password", index.js will successfully set up the connenction to that database.
 
+If this app were to be hosted on an external platform, such as heroku, the "production" key of the config.json file would need to be edited to contain a key-value pair of key = use_env_variable and value = the environment variable in order to successfully set up the database.
+
 ### passport.js
+
+passport.js deals with authentication when a user tries to sign in. When the user tries to sign in, a function is ran with the inputted "email" and "password" values passed in as parameters. passport.js will then run two authentication checks:
+
+* 1: make sure that there exists a user in the "users" table of the database with a column value of "email" that equals the email the user input
+* 2: make sure that the password the user input is a valid password by calling the validPassword method that's defined in the "users" model
+
+If these two checks are passed, passport.js provides a user with the built in "done" function in passport.LocalStrategy.
+
+passport.js also provides the serializeUser and deserializeUser methods needed for using passport sessions. 
 
 ## routes
 
+Routes are in essence instructions for the server. They tell the server how to respond to the client when the client makes a request. Without routes, the server would not know how to interprate the requests the client is making and consequently not know how to respond.
+
+The routes in this app are seperated into 2 main categories: api-routes and html-routes. The api-routes deal with telling the server how to serve up data to the client, e.g if the client asks for an entry with a specified id in a database what to send back, while the html-routes deal with redirecting the client and rendering html pages to the client's browser.
+
 ### api-routes.js
 
+```
+app.post("/api/login", passport.authenticate("local"), function(req, res) {
+    res.json(req.user);
+}
+```
+* Is hit when the client makes a POST request to the URL: ```api/login```
+* Calls our passport LocalStrategy function to authenticate the user's login attempt. See [passport.js](#passport.js) for details.
+* Responds to the client with the authenticated user if ```passport.authenticate("local")``` was passed
+* Responds to the client with a "401 Unauthorized" status if ```passport.authenticate("local")``` failed
+
+<br>
+
+```
+app.post("/api/signup", function(req, res) {
+    db.User.create({
+      email: req.body.email,
+      password: req.body.password
+    })
+      .then(function() {
+        res.redirect(307, "/api/login");
+      })
+      .catch(function(err) {
+        res.status(401).json(err);
+      });
+});
+```
+
+* Is hit when the client makes a POST request to the URL: ```api/signup```
+* Uses sequelize to create a new user in the database
+* Responds to the client with a 307 temporary redirect code and redirects them to the login page
+* Responds to the client with a "401 Unauthorized" status and the error if there was an error
+
+<br>
+
+```
+app.get("/logout", function(req, res) {
+    req.logout();
+    res.redirect("/");
+});
+```
+
+* Is hit when the client makes a GET request to the URL: ```/logout```
+* Calls the built in Passport function logout(), which removes the req.user property and clears the login session
+* Redirects the client to the root route
+
+<br>
+
+```
+app.get("/api/user_data", function(req, res) {
+    if (!req.user) {
+      res.json({}); // don't give the client any information if they're not logged in
+    } else {
+      res.json({
+        email: req.user.email,
+        id: req.user.id
+      });
+    }
+  });
+```
+* Is hit when the client makes a GET request to the URL: ```/api/user_data```
+* Responds to the client with an empty object if they're not logged in
+* Responds to the client with their email and id if they are loggin in
+
+<br>
+
 ### html-routes.js
+
+```
+app.get("/", function(req, res) {
+    if (req.user) {
+      res.redirect("/members");
+    }
+    res.sendFile(path.join(__dirname, "../public/signup.html"));
+  });
+```
+
+* Is hit when the client makes a GET request to the root URL: ```/```
+* Redirects the client to the members page if they're logged in
+* Responds to the client with the singup.html page if they're not logged in
+
+<br>
+
+```
+app.get("/login", function(req, res) {
+    if (req.user) {
+      res.redirect("/members");
+    }
+    res.sendFile(path.join(__dirname, "../public/login.html"));
+});
+```
+
+* Is hit when the client makes a GET request to the URL: ```/login```
+* Redirects the client to the members page if they're logged in
+* Responds to the client with the login.html page if they're not logged in
+
 
 ## public
 
