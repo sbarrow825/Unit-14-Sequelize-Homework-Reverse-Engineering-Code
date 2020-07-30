@@ -409,23 +409,62 @@ app.get("/members", isAuthenticated, function(req, res) {
 
 ## public
 
+The public folder contains files that the server has full access to. Namely, the public folder exists soley so that we can call ```app.use(express.static("public"))``` in the server.js file in order to declare everything inside the public folder as "static" so that the server can have access to them.
+
 ### js
+
+The js directory in public contains all the client-side javascript. This is what gives the client functionality on their browser when using the application. All of the on-click event listeners, user inputs, and requests to the server are found in the files within this folder.
 
 #### login.js
 
+login.js deals with all of the client-side functionality on the login page. Namely, login.js handles what happens when the user clicks the login button on the login page. When the login button is clicked, login.js grabs the data that was typed into the "email" and "password" fields, sends a POST request to ```/api/login``` along with an object containing those "email" and "password" values, and finally redirects the user to the members page if the login was successful.
+
 #### members.js
+
+member.js only has one GET request, which makes a request to ```api/user_data``` then sets
+the text of the DOM element with class = member-name equal to the email that the server responded with. The allows the client to see their email displayed on the page when they are logged in and on the members page.
 
 #### signup.js
 
+signup.js deals with all of the client-side functionality on the signup page. signup.js sets up on on-submit event listener for the signup form. When the submit button is clicked, signup.js grabs the data that was typed into the "email" and "password" fields, sends a POST request to ```/api/signup``` along with an object containing those "email" and "password" values, and finally redirects the user to the members page if the login was successful.
+
+If the login was not successful, meaning the server responded with an error, the error message is displayed on the screen.
+
 ### stylesheets
+
+All files within the stylesheets directory deal with the styling of the application. The colors, size, display, etc... of the html DOM elements are dictated by the files in this directory.
 
 #### style.css
 
+style.css only contains style parameter
+
+```
+form.signup,
+form.login {
+  margin-top: 50px;
+}
+
+```
+
+This makes all html elements that are forms with a class of "signup" or "login" have a 50px margin above them.
+
 ### login.html
+
+Generates a form on the page for users to input their email and password along with a login button that users can click after inputting their email and password into the form to login.
+
+Also populates the page with a link that will redirect the user to the signup page when clicked.
 
 ### members.html
 
+Generates the text "Welcome" plus the user's email to the page.
+
+Also populates the page with a logout button.
+
 ### signup.html
+
+Generates a form on the page for users to input their email and password along with a signup button that users can click after inputting their email and password into the form to sign up.
+
+Also populates the page with a link that will redirect the user to the login page when clicked.
 
 ## License
 
