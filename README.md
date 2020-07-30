@@ -386,6 +386,18 @@ app.get("/login", function(req, res) {
 * Redirects the client to the members page if they're logged in
 * Responds to the client with the login.html page if they're not logged in
 
+<br>
+
+```
+app.get("/members", isAuthenticated, function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/members.html"));
+});
+```
+
+* Is hit when the client makes a GET request to the URL: ```/members```
+* Responds to the client with the members.html page if they're logged in
+* Redirects the client to the root URL if they're not logged in (see [isAuthenticated.js](#isAuthenticated.js) for details)
+
 
 ## public
 
