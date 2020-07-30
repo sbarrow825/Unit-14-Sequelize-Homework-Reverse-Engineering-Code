@@ -1,5 +1,3 @@
-# Unit 14 Sequelize Homework: Reverse Engineering Code
-
 Reverse engineer the starter code provided and create a tutorial for the code.
 
 In the `Develop` folder, there is starter code for a project. Begin inspecting the code to get an understanding of each file's responsibility. Then, README markdown file, write a tutorial explaining *every* file and its purpose in as fine as detail as possible. If one file is dependant on other files, be sure to let the user know.
@@ -50,3 +48,142 @@ You are required to submit the following:
 
 - - -
 © 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Unit 14 Sequelize Homework: Reverse Engineering Code
+
+## Description
+
+Descriptive walkthrough of the functionality and code syntax in the attached Node express app
+
+## README-Overview
+
+## Table of Contents
+
+* [Application-Overview](#Application-Overview)
+* [server.js](#server.js)
+* [package.json](#package.json)
+* [models directory](#models)
+    * [index.js](#index.js)
+    * [user.js](#user.js)
+* [config directory](#config)
+    * [middleware directory](#middleware)
+        * [isAuthenticated.js](#isAuthenticated.js)
+    * [config.json](#config.json)
+    * [passport.js](#passport.js)
+* [routes directory](#routes)
+    * [api-routes.js](#api-routes.js)
+    * [html-routes.js](#html-routes.js)
+* [public directory](#public)
+    * [js directory](#js)
+        * [login.js](#login.js)
+        * [members.js](#members.js)
+        * [signup.js](#signup.js)
+    * [stylesheets directory](#stylesheets)
+        * [style.css](#style.css)
+    * [login.html](#login.html)
+    * [members.html](#members.html)
+    * [signup.html](#signup.html)
+* [License](#License)
+* [Questions](#Questions)
+
+
+## Application-Overview
+
+## server.js
+
+## package.json
+
+## models
+
+### index.js
+
+### user.js
+
+## config
+
+### middleware
+
+#### isAuthenticated.js
+
+### config.json
+
+### passport.js
+
+## routes
+
+### api-routes.js
+
+### html-routes.js
+
+## public
+
+### js
+
+#### login.js
+
+#### members.js
+
+#### signup.js
+
+### stylesheets
+
+#### style.css
+
+### login.html
+
+### members.html
+
+### signup.html
+
+## License
+
+![MIT License](https://img.shields.io/npm/l/inquirer)
+
+
+
+
+
+## Questions
+
+![Github Profile Picture](https://github.com/sbarrow825.png)
+
+For any questions concerning this project, please feel free to email me at sbarrow825@berkeley.edu
+
